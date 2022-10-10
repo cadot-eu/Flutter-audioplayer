@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
@@ -58,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       repertoire = p.dirname(file.path);
                       files = Directory(repertoire).listSync();
                       files.sort((a, b) => a.path.compareTo(b.path));
-                      print(files);
                     }
                   });
                 },
@@ -68,24 +66,51 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             //view list files
-            ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: files.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: Container(
-                    width: double.infinity,
-                    color: Theme.of(context).primaryColorLight,
-                    child: Text(files[index].path.split('/').last),
-                  ),
-                );
-              },
+            SizedBox(
+              height: 500,
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey,
+                ),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: files.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(.5),
+                    child: Container(
+                        width: double.infinity,
+                        color: Colors.white,
+                        child: Text(files[index].path.split('/').last)),
+                  );
+                },
+              ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.play_arrow),
+                    iconSize: 48,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      play();
+                    }),
+                ElevatedButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    // To do
+                  },
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
   }
+}
+
+play() {
+  print('play');
 }
